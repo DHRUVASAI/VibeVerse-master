@@ -1,8 +1,32 @@
-# VibeVerse 🌌
+# 🌌 VibeVerse
+
 ### *"Your Taste. Your Identity. Your Vibe."*
 
-> **Monad Blitz Hackathon Submission**  
-> AI-Powered Entertainment Discovery & Verifiable Web3 Taste Identity on Monad Testnet (`Chain ID 10143`).
+<p align="center">
+  <img src="https://img.shields.io/badge/Monad-Testnet-836EF9?style=for-the-badge" alt="Monad Testnet"/>
+  <img src="https://img.shields.io/badge/Chain%20ID-10143-blueviolet?style=for-the-badge" alt="Chain ID"/>
+  <img src="https://img.shields.io/badge/Node.js-v18+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"/>
+</p>
+
+<p align="center">
+  <b>AI-Powered Entertainment Discovery & Verifiable Web3 Taste Identity on Monad Testnet</b><br/>
+  <sub>🏆 Monad Blitz Hackathon Submission</sub>
+</p>
+
+---
+
+## 📑 Table of Contents
+
+- [What Problem Does It Solve?](#-what-problem-does-it-solve)
+- [Why Monad?](#-why-monad)
+- [Architecture](#️-architecture)
+- [Smart Contract](#-smart-contract)
+- [Key Features](#-key-features)
+- [Screenshots](#-screenshots)
+- [Installation & Quickstart](#-installation--quickstart)
+- [Automated Testing](#-automated-testing)
+- [Team & Acknowledgments](#-hackathon-team--acknowledgments)
 
 ---
 
@@ -11,6 +35,7 @@
 Centralized streaming platforms (Netflix, Spotify, YouTube) track what you watch and listen to, but lock your entertainment taste inside walled gardens. You don't own your recommendations, you can't carry your taste across applications, and collaborating with friends requires clunky manual playlist sharing.
 
 **VibeVerse** transforms entertainment discovery into a **privacy-preserving, user-owned digital identity**:
+
 1. Discover cinema and music tailored to your exact mood.
 2. Formulate your evolving taste into a digital **Vibe Passport**.
 3. Generate a deterministic, cryptographic **Vibe Signature** (`keccak256`) that remains verifiable on-chain without exposing private viewing history.
@@ -21,9 +46,10 @@ Centralized streaming platforms (Netflix, Spotify, YouTube) track what you watch
 ## ⚡ Why Monad?
 
 Blockchain in VibeVerse is **not a gimmick**:
-- **High Throughput & Sub-Second Finality**: Updating dynamic taste profiles and forging collaborative Vibe Fusions requires instantaneous transaction confirmation without lag.
-- **Micro-Gas Economics**: Minting and updating passports frequently as your taste evolves is only economically viable on Monad's gas-optimized architecture.
-- **Verifiable Consensus**: Monad provides a decentralized truth layer for taste ownership and dual-identity collaborations across the decentralized web.
+
+- **High Throughput & Sub-Second Finality** — Updating dynamic taste profiles and forging collaborative Vibe Fusions requires instantaneous transaction confirmation without lag.
+- **Micro-Gas Economics** — Minting and updating passports frequently as your taste evolves is only economically viable on Monad's gas-optimized architecture.
+- **Verifiable Consensus** — Monad provides a decentralized truth layer for taste ownership and dual-identity collaborations across the decentralized web.
 
 ---
 
@@ -34,19 +60,19 @@ flowchart TD
     A[User Mood & Interactions] --> B[Vibe Engine: Dynamic Archetype & Metrics]
     B --> C[Deterministic Vibe Signature Generator]
     C -->|Canonical JSON + Keccak256| D[Privacy-Preserving Vibe Signature]
-    
+
     subgraph Monad Testnet Blockchain (Chain ID 10143)
         E[VibePassport.sol Smart Contract]
         E --> F[createPassport / updatePassport]
         E --> G[createFusion Dual-Wallet Collaboration]
         E --> H[On-Chain Proof & Event Registry]
     end
-    
+
     D --> F
     F --> I[Vibe Passport Card & Shareable Web3 Profile]
     I --> J[Vibe Fusion Studio: 93% Compatibility]
     J --> G
-    
+
     H --> K[Public Independent Verification View: /verify]
     K -->|Direct Monad JSON-RPC| L[Cryptographic Verification Without Private Data Leakage]
 ```
@@ -63,20 +89,25 @@ flowchart TD
 
 ## 📜 Smart Contract
 
-- **Contract Name**: `VibePassport`
-- **Network**: Monad Testnet
-- **Chain ID**: `10143` (`0x279f`)
-- **RPC URL**: `https://testnet-rpc.monad.xyz`
-- **Currency**: `MON`
-- **Contract Address**: `0x8A791620dd6260079BF849Dc5567aDC3F2FdC318`
-- **Explorer**: [https://testnet.monadexplorer.com](https://testnet.monadexplorer.com)
+| Field | Value |
+| :--- | :--- |
+| **Contract Name** | `VibePassport` |
+| **Network** | Monad Testnet |
+| **Chain ID** | `10143` (`0x279f`) |
+| **RPC URL** | `https://testnet-rpc.monad.xyz` |
+| **Currency** | `MON` |
+| **Contract Address** | [`0x8A791620dd6260079BF849Dc5567aDC3F2FdC318`](https://testnet.monadexplorer.com/address/0x8A791620dd6260079BF849Dc5567aDC3F2FdC318) |
+| **Explorer** | [testnet.monadexplorer.com](https://testnet.monadexplorer.com) |
 
 ### Key Functions
-- `createPassport(string archetype, bytes32 vibeSignature, uint8 energy, uint8 exploration, uint8 nostalgia, string metadataURI)`
-- `updatePassport(uint256 passportId, string archetype, bytes32 vibeSignature, ...)`
-- `createFusion(address partner, bytes32 fusionSignature, uint8 compatibilityScore, string sharedVibe, string metadataURI)`
-- `getPassport(uint256 passportId)`
-- `verifyVibeSignature(uint256 passportId, bytes32 expectedSignature)`
+
+```solidity
+createPassport(string archetype, bytes32 vibeSignature, uint8 energy, uint8 exploration, uint8 nostalgia, string metadataURI)
+updatePassport(uint256 passportId, string archetype, bytes32 vibeSignature, ...)
+createFusion(address partner, bytes32 fusionSignature, uint8 compatibilityScore, string sharedVibe, string metadataURI)
+getPassport(uint256 passportId)
+verifyVibeSignature(uint256 passportId, bytes32 expectedSignature)
+```
 
 ---
 
@@ -98,6 +129,19 @@ flowchart TD
 
 ### 4. ✓ Standalone Public Verification
 - Zero-login on-chain RPC lookup to verify passport authenticity and cryptographic signatures.
+
+---
+
+## 📸 Screenshots
+
+> Place your screenshot files in a `screenshots/` folder at the root of this repo, using the filenames below — GitHub can only render images that live inside the repo (or a public URL), not local file paths from your computer.
+
+| Feature | Preview |
+| :--- | :--- |
+| **Vibe Passport** | ![Vibe Passport](screenshots/monad_vibe_passport.png) |
+| **Monad Transaction Lifecycle** | ![Transaction Verified](screenshots/monad_tx_lifecycle_verified.png) |
+| **Vibe Fusion Studio** | ![Vibe Fusion](screenshots/monad_vibe_fusion.png) |
+| **Public Verification** | ![Public Verification](screenshots/monad_public_verification.png) |
 
 ---
 
@@ -144,20 +188,10 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ## 🧪 Automated Testing
 
 Run the full end-to-end Monad Blitz verification test suite with Puppeteer:
+
 ```bash
 node test-monad-blitz.js
 ```
-
----
-
-## 📸 Screenshots
-
-| Feature | Preview |
-| :--- | :--- |
-| **Vibe Passport** | ![Vibe Passport](file:///C:/Users/dhruv/.gemini/antigravity/brain/0c3e0064-05e2-44d2-9046-3c311ae54d5f/monad_vibe_passport.png) |
-| **Monad Transaction Lifecycle** | ![Transaction Verified](file:///C:/Users/dhruv/.gemini/antigravity/brain/0c3e0064-05e2-44d2-9046-3c311ae54d5f/monad_tx_lifecycle_verified.png) |
-| **Vibe Fusion Studio** | ![Vibe Fusion](file:///C:/Users/dhruv/.gemini/antigravity/brain/0c3e0064-05e2-44d2-9046-3c311ae54d5f/monad_vibe_fusion.png) |
-| **Public Verification** | ![Public Verification](file:///C:/Users/dhruv/.gemini/antigravity/brain/0c3e0064-05e2-44d2-9046-3c311ae54d5f/monad_public_verification.png) |
 
 ---
 
