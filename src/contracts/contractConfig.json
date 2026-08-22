@@ -1,0 +1,8 @@
+{
+  "contractAddress": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+  "chainId": 10143,
+  "network": "Monad Testnet",
+  "explorer": "https://testnet.monadexplorer.com",
+  "deployedAt": "2026-08-22T11:13:30.983Z",
+  "note": "Configured for Monad Testnet (Chain ID 10143)"
+}

@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VibeVerse — Discover movies, TV shows, and music that match your mood. Mood-based recommendations powered by TMDb and YouTube.">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="color-scheme" content="dark">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="VibeVerse — Your Mood. Your Movie.">
+    <meta property="og:description" content="Discover movies, TV shows, and music that match your mood. Mood-based recommendations powered by TMDb and YouTube.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/og-preview.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VibeVerse — Your Mood. Your Movie.">
+    <meta name="twitter:description" content="Mood-based movie, TV, and music discovery.">
+
+    <!-- Inline SVG Favicon (no external dependency) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='100%25' stop-color='%23c06bff'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text x='50' y='68' font-size='55' font-weight='bold' text-anchor='middle' fill='white' font-family='sans-serif'>V</text></svg>" type="image/svg+xml">
+
+    <title>VibeVerse — Your Mood. Your Movie.</title>
+    <link rel="stylesheet" href="./splash.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen" onclick="this.style.display='none';" style="cursor: pointer;">
+        <div class="splash-gradient-bg"></div>
+        <div class="splash-orbs">
+            <div class="splash-orb"></div>
+            <div class="splash-orb"></div>
+            <div class="splash-orb"></div>
+        </div>
+        <div class="splash-content">
+            <h1 class="splash-logo">VibeVerse</h1>
+            <p class="splash-tagline">Find Your Perfect Movies & Music, One Mood at a Time.</p>
+            <div class="splash-loading">
+                <div class="splash-dot"></div>
+                <div class="splash-dot"></div>
+                <div class="splash-dot"></div>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: rgba(255,255,255,0.6); animation: pulse 2s infinite;">
+                Click anywhere or press any key to continue...
+            </p>
+        </div>
+    </div>
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+    
+    <!-- Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Auth Section -->
+    <section class="auth-section" id="authSection">
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="float-item" style="--delay: 0s; --duration: 20s;">🎬</div>
+            <div class="float-item" style="--delay: 2s; --duration: 25s;">🎭</div>
+            <div class="float-item" style="--delay: 4s; --duration: 22s;">🍿</div>
+            <div class="float-item" style="--delay: 1s; --duration: 24s;">✨</div>
+            <div class="float-item" style="--delay: 3s; --duration: 26s;">🎵</div>
+        </div>
+        
+        <div class="auth-container">
+            <!-- Hero Section -->
+            <div class="auth-hero">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span>Discover Your Cinematic Journey</span>
+                </div>
+                <h1 class="auth-logo">Vibe Verse</h1>
+                <p class="auth-tagline">Where emotions meet entertainment</p>
+                <div class="tagline-description">Experience movies that resonate with your soul</div>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/>
+                    </svg>
+                    <span>Login</span>
+                </button>
+                <button class="auth-tab" data-tab="signup">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <line x1="20" y1="8" x2="20" y2="14"/>
+                        <line x1="23" y1="11" x2="17" y2="11"/>
+                    </svg>
+                    <span>Sign Up</span>
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Email Address
+                    </label>
+                    <input type="email" id="loginEmail" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        Password
+                    </label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="auth-btn">
+                    <span>Start Your Journey</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                
+                <div class="or-divider">
+                    <span>OR</span>
+                </div>
+                
+                <button type="button" class="guest-btn" id="guestLoginBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Continue as Guest</span>
+                </button>
+
+                <div class="or-divider">
+                    <span>WEB3 WALLET</span>
+                </div>
+
+                <button type="button" class="metamask-btn" id="metamaskLoginBtn">
+                    <svg class="metamask-fox" width="22" height="22" viewBox="0 0 318.6 318.6">
+                        <path fill="#E2761B" stroke="#E2761B" stroke-linecap="round" stroke-linejoin="round" d="M274.1 35.5l-99.5 73.9L194 65.4z"/>
+                        <path fill="#E4761B" stroke="#E4761B" stroke-linecap="round" stroke-linejoin="round" d="M44.4 35.5l98.7 74.6-18.4-44.7z"/>
+                        <path fill="#E4761B" stroke="#E4761B" stroke-linecap="round" stroke-linejoin="round" d="M238.3 206.8l-26.6 40.5 44.5 12.3 12.9-43.1z"/>
+                        <path fill="#E4761B" stroke="#E4761B" stroke-linecap="round" stroke-linejoin="round" d="M49.6 216.5l12.8 43.1 44.5-12.3-26.5-40.5z"/>
+                        <path fill="#D7C1B3" stroke="#D7C1B3" stroke-linecap="round" stroke-linejoin="round" d="M86.8 136.7l-24.8 37.3 43.5 1.2-15.1-40.4z"/>
+                        <path fill="#D7C1B3" stroke="#D7C1B3" stroke-linecap="round" stroke-linejoin="round" d="M231.8 136.7l-15.3 40.4 43.4-1.2z"/>
+                        <path fill="#233447" stroke="#233447" stroke-linecap="round" stroke-linejoin="round" d="M106.3 175.2l-30.8-.9 22.3 26.5 8.5-25.6z"/>
+                        <path fill="#233447" stroke="#233447" stroke-linecap="round" stroke-linejoin="round" d="M212.3 175.2l8.5 25.6 22.3-26.5z"/>
+                        <path fill="#CC621B" stroke="#CC621B" stroke-linecap="round" stroke-linejoin="round" d="M86.8 136.7l19.5 38.5 8.5-25.6-28-12.9z"/>
+                        <path fill="#CC621B" stroke="#CC621B" stroke-linecap="round" stroke-linejoin="round" d="M231.8 136.7l-28 12.9 8.5 25.6 19.5-38.5z"/>
+                        <path fill="#E27525" stroke="#E27525" stroke-linecap="round" stroke-linejoin="round" d="M159.3 133.5l-44.5 2.1 28 12.9z"/>
+                        <path fill="#E27525" stroke="#E27525" stroke-linecap="round" stroke-linejoin="round" d="M159.3 133.5l16.5 15 28-12.9z"/>
+                        <path fill="#F6851B" stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" d="M106.3 175.2l-8.5 25.6 30.8 1.4-2.8-27z"/>
+                        <path fill="#F6851B" stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" d="M212.3 175.2l-19.5-.9-2.8 27 30.8-1.4z"/>
+                        <path fill="#C0AD9E" stroke="#C0AD9E" stroke-linecap="round" stroke-linejoin="round" d="M128.6 202.2l-30.8-1.4 8.5 25.6z"/>
+                        <path fill="#C0AD9E" stroke="#C0AD9E" stroke-linecap="round" stroke-linejoin="round" d="M190 202.2l22.3 24.2 8.5-25.6z"/>
+                        <path fill="#161616" stroke="#161616" stroke-linecap="round" stroke-linejoin="round" d="M159.3 227.8l-30.7-25.6 2.8 27 27.9-1.4z"/>
+                        <path fill="#161616" stroke="#161616" stroke-linecap="round" stroke-linejoin="round" d="M159.3 227.8l27.9 1.4 2.8-27-30.7 25.6z"/>
+                        <path fill="#763D16" stroke="#763D16" stroke-linecap="round" stroke-linejoin="round" d="M159.3 227.8l-27.9 1.4 12.3 23.4 15.6-24.8z"/>
+                        <path fill="#763D16" stroke="#763D16" stroke-linecap="round" stroke-linejoin="round" d="M159.3 227.8l15.6 24.8 12.3-23.4-27.9-1.4z"/>
+                        <path fill="#F6851B" stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" d="M268.9 216.5l-12.9 43.1 36.3-29.8z"/>
+                        <path fill="#F6851B" stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" d="M49.6 216.5l-23.4 13.3 36.2 29.8z"/>
+                        <path fill="#F6851B" stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" d="M174.6 109.4l99.5-73.9-35.8 101.2z"/>
+                        <path fill="#F6851B" stroke="#F6851B" stroke-linecap="round" stroke-linejoin="round" d="M144 109.4l-63.7 27.3-35.9-101.2z"/>
+                    </svg>
+                    <span>Connect with MetaMask</span>
+                </button>
+
+                <div class="manual-wallet-container">
+                    <button type="button" class="manual-wallet-toggle" id="manualWalletToggleBtn">
+                        <span>Or enter wallet address manually</span>
+                        <svg class="manual-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="manual-wallet-box hidden" id="manualWalletBox">
+                        <div class="manual-wallet-input-group">
+                            <input type="text" id="manualWalletInput" placeholder="0x..." class="manual-wallet-input" spellcheck="false" autocomplete="off">
+                            <button type="button" class="manual-wallet-submit-btn" id="manualWalletSubmitBtn">Connect</button>
+                        </div>
+                        <p class="manual-wallet-hint">View/watch mode for any EVM address</p>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Signup Form -->
+            <form class="auth-form hidden" id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        Full Name
+                    </label>
+                    <input type="text" id="signupName" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Email Address
+                    </label>
+                    <input type="email" id="signupEmail" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        Password
+                    </label>
+                    <input type="password" id="signupPassword" required placeholder="••••••••" minlength="6">
+                </div>
+                <button type="submit" class="auth-btn">
+                    <span>Create Account</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </form>
+            
+            <!-- Features Highlights -->
+            <div class="auth-features">
+                <div class="feature-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                    </svg>
+                    <span>Mood-based Discovery</span>
+                </div>
+                <div class="feature-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span>Personalized Picks</span>
+                </div>
+                <div class="feature-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span>Global Cinema</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container hidden" id="mainContainer">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">Vibe Verse</h1>
+            <div class="header-right">
+                <button class="header-btn vibe-map-btn" id="showVibeMapBtn" title="Explore Emotional Galaxy">
+                    <span style="font-size: 1.2rem;">🎯</span>
+                    <span>Vibe Map</span>
+                </button>
+                
+                <button class="header-btn memory-log-btn" id="showMemoryLogBtn" title="Mood Memory Log">
+                    <span style="font-size: 1.2rem;">📋</span>
+                    <span>Vibe Journal</span>
+                </button>
+                
+                <button class="header-btn vibe-passport-btn" id="showPassportBtn" title="Soulbound Vibe Passport on Monad">
+                    <span style="font-size: 1.2rem;">🪪</span>
+                    <span>Vibe Passport</span>
+                </button>
+
+                <button class="header-btn vibe-twins-btn" id="showTwinsBtn" title="Find Compatible Vibe Twins">
+                    <span style="font-size: 1.2rem;">👯</span>
+                    <span>Vibe Twins</span>
+                </button>
+
+                <button class="header-btn vibe-fusion-btn" id="showFusionBtn" title="Collaborative Vibe Fusion">
+                    <span style="font-size: 1.2rem;">🔮</span>
+                    <span>Vibe Fusion</span>
+                </button>
+
+                <button class="header-btn public-verify-btn" id="showPublicVerifyBtn" title="Public Blockchain Verification">
+                    <span style="font-size: 1.2rem;">✓</span>
+                    <span>Verify</span>
+                </button>
+
+                <button class="header-btn vibe-mode-btn" id="vibeModeBtn" title="Background Vibe Mode">
+                    <span style="font-size: 1.2rem;">🎨</span>
+                    <span>Vibe Mode</span>
+                    <span class="vibe-mode-indicator" id="vibeModeIndicator">Default</span>
+                </button>
+                
+                <div class="wallet-widget hidden" id="walletWidget">
+                    <button class="wallet-badge" id="walletBadgeBtn" type="button" title="View Web3 Wallet Details">
+                        <span class="wallet-icon" id="walletIcon">🦊</span>
+                        <span class="wallet-address" id="walletAddressDisplay">0x...</span>
+                        <span class="wallet-status-dot"></span>
+                    </button>
+                    <div class="wallet-popover hidden" id="walletPopover">
+                        <div class="wallet-popover-header">
+                            <div class="wallet-popover-title">
+                                <span class="popover-dot"></span>
+                                <span id="walletModeLabel">MetaMask</span>
+                            </div>
+                            <span class="network-tag" id="walletNetworkTag">Ethereum</span>
+                        </div>
+                        <div class="wallet-address-full" id="walletAddressFull" title="Click to copy">0x0000000000000000000000000000000000000000</div>
+                        <div class="wallet-balance-row" id="walletBalanceRow">
+                            <span class="balance-label">Balance:</span>
+                            <span class="balance-val" id="walletBalanceVal">-- ETH</span>
+                        </div>
+
+                        <!-- Quick Web3 Actions -->
+                        <div class="wallet-quick-actions">
+                            <button type="button" class="wallet-quick-btn" id="sendVibeTxBtn" title="Send on-chain vibe tip">
+                                <span>💸 Send Vibe</span>
+                            </button>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="wallet-quick-btn explorer-link" id="walletExplorerBtn" title="View address on Block Explorer">
+                                <span>🔍 Explorer</span>
+                            </a>
+                        </div>
+
+                        <!-- Recent Transactions -->
+                        <div class="wallet-tx-section">
+                            <div class="wallet-tx-header">
+                                <span class="wallet-tx-title">Transactions</span>
+                                <span class="wallet-tx-count" id="walletTxCount">0</span>
+                            </div>
+                            <div class="wallet-tx-list" id="walletTxList">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="wallet-popover-actions">
+                            <button type="button" class="wallet-action-btn copy-btn" id="walletCopyBtn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <span>Copy</span>
+                            </button>
+                            <button type="button" class="wallet-action-btn disconnect-btn" id="walletDisconnectBtn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                                <span>Disconnect</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="user-name" id="userName"></span>
+                <button class="logout-btn" id="logoutBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Logout
+                </button>
+        </header>
+
+        <!-- Monad Network Warning Banner -->
+        <div class="network-warning-banner hidden" id="wrongNetworkBanner">
+            <div class="network-warning-content">
+                <span class="warning-icon">⚡</span>
+                <span class="warning-text">Switch to <strong>Monad Testnet</strong> to create, verify, and fuse on-chain Vibe Passports.</span>
+            </div>
+            <button type="button" class="switch-monad-banner-btn" id="bannerSwitchMonadBtn">Switch to Monad Testnet</button>
+        </div>
+
+        <!-- Search Section -->
+        <section class="search-section" id="searchSection">
+            <div class="search-container">
+                <!-- Hero Welcome -->
+                <div class="hero-welcome">
+                    <h2 class="section-title">How are you feeling today?</h2>
+                    <p class="section-subtitle">Describe your mood, and let us find your perfect cinematic match</p>
+                </div>
+                
+                <!-- Main Mood Input -->
+                <div class="main-mood-section">
+                    <div class="mood-input-wrapper">
+                        <div class="mood-input-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="mainMoodInput" 
+                            class="main-mood-input" 
+                            placeholder="Type your mood... (e.g., dreamy, adventurous, nostalgic)"
+                            autocomplete="off"
+                        >
+                        <button class="mood-submit-btn" id="moodSubmitBtn">
+                            <span>Explore</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Mood Interpretation -->
+                    <div class="mood-interpretation hidden" id="moodInterpretation">
+                        <div class="interpretation-aura" id="interpretationAura"></div>
+                        <div class="interpretation-content">
+                            <div class="interpretation-quote" id="interpretationQuote"></div>
+                            <div class="interpretation-mood" id="interpretationMood"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Mood Access -->
+                <div class="quick-mood-section">
+                    <div class="divider">
+                        <span>or pick a vibe</span>
+                    </div>
+                    
+                    <!-- Quick Mood Grid -->
+                    <div class="quick-mood-grid">
+                        <!-- Happy -->
+                        <button class="quick-mood-btn" data-mood="Happy">
+                            <div class="mood-emoji">😊</div>
+                            <span class="mood-name">Happy</span>
+                            <span class="mood-desc">Uplifting & Joyful</span>
+                        </button>
+                        
+                        <!-- Sad -->
+                        <button class="quick-mood-btn" data-mood="Sad">
+                            <div class="mood-emoji">😢</div>
+                            <span class="mood-name">Sad</span>
+                            <span class="mood-desc">Melancholic & Deep</span>
+                        </button>
+                        
+                        <!-- Thriller -->
+                        <button class="quick-mood-btn" data-mood="Thriller">
+                            <div class="mood-emoji">😱</div>
+                            <span class="mood-name">Thriller</span>
+                            <span class="mood-desc">Intense & Suspenseful</span>
+                        </button>
+                        
+                        <!-- Romantic -->
+                        <button class="quick-mood-btn" data-mood="Romantic">
+                            <div class="mood-emoji">💕</div>
+                            <span class="mood-name">Romantic</span>
+                            <span class="mood-desc">Love & Passion</span>
+                        </button>
+                        
+                        <!-- Action -->
+                        <button class="quick-mood-btn" data-mood="Action">
+                            <div class="mood-emoji">💥</div>
+                            <span class="mood-name">Action</span>
+                            <span class="mood-desc">Explosive & Exciting</span>
+                        </button>
+                        
+                        <!-- Comedy -->
+                        <button class="quick-mood-btn" data-mood="Comedy">
+                            <div class="mood-emoji">😂</div>
+                            <span class="mood-name">Comedy</span>
+                            <span class="mood-desc">Hilarious & Fun</span>
+                        </button>
+                        
+                        <!-- Mystery -->
+                        <button class="quick-mood-btn" data-mood="Mystery">
+                            <div class="mood-emoji">🕵️</div>
+                            <span class="mood-name">Mystery</span>
+                            <span class="mood-desc">Puzzling & Intriguing</span>
+                        </button>
+                        
+                        <!-- Feeling Random -->
+                        <button class="quick-mood-btn random-style" id="randomMoodBtn">
+                            <div class="mood-emoji dice-icon">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                                    <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
+                                    <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+                                    <circle cx="8.5" cy="15.5" r="1.5" fill="currentColor"/>
+                                    <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <span class="mood-name">Surprise Me!</span>
+                            <span class="mood-desc">Random mood magic</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Advanced Options Toggle -->
+                <div class="advanced-toggle">
+                    <button class="toggle-btn" id="advancedToggleBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="21" x2="4" y2="14"/>
+                            <line x1="4" y1="10" x2="4" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12" y2="3"/>
+                            <line x1="20" y1="21" x2="20" y2="16"/>
+                            <line x1="20" y1="12" x2="20" y2="3"/>
+                        </svg>
+                        <span>Advanced Options</span>
+                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Collapsible Advanced Section - Quick Quiz -->
+                <div class="advanced-options hidden" id="advancedOptions">
+                    <div class="quiz-container">
+                        <h3 class="quiz-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            Quick 3-Question Quiz for Better Recommendations
+                        </h3>
+                        
+                        <div class="quiz-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="quizProgress"></div>
+                            </div>
+                            <div class="progress-text" id="progressText">Question 1 of 3</div>
+                        </div>
+                        
+                        <!-- Question 1 -->
+                        <div class="quiz-question" id="question1">
+                            <label class="quiz-label">1. What's your energy level right now?</label>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-question="1" data-value="low">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M8 15h8"/>
+                                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                                    </svg>
+                                    🧘 Relaxed & Calm
+                                </button>
+                                <button class="quiz-option" data-question="1" data-value="medium">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                                    </svg>
+                                    ⚖️ Balanced
+                                </button>
+                                <button class="quiz-option" data-question="1" data-value="high">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M7 9l5 5 5-5"/>
+                                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                                    </svg>
+                                    ⚡ Energized & Active
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 2 -->
+                        <div class="quiz-question hidden" id="question2">
+                            <label class="quiz-label">2. Do you prefer stories that...</label>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-question="2" data-value="reality">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                    </svg>
+                                    🌍 Feel Real & Grounded
+                                </button>
+                                <button class="quiz-option" data-question="2" data-value="fantasy">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    </svg>
+                                    🔮 Escape to Fantasy
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 3 -->
+                        <div class="quiz-question hidden" id="question3">
+                            <label class="quiz-label">3. Tonight, you want to...</label>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-question="3" data-value="laugh">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                    </svg>
+                                    😂 Laugh & Have Fun
+                                </button>
+                                <button class="quiz-option" data-question="3" data-value="think">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                    </svg>
+                                    🧠 Think & Reflect
+                                </button>
+                                <button class="quiz-option" data-question="3" data-value="thrill">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                    </svg>
+                                    🎪 Get Thrilled
+                                </button>
+                                <button class="quiz-option" data-question="3" data-value="feel">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                    💖 Feel Emotions
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button class="search-btn-large hidden" id="searchMoviesBtn">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                            <span>Find My Perfect Movies</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Vibe Map (Emotional Galaxy) Section -->
+        <section class="vibe-map-section hidden" id="vibeMapSection">
+            <div class="vibe-map-container">
+                <div class="vibe-map-header">
+                    <h2 class="vibe-map-title">🎭 Emotional Galaxy</h2>
+                    <p class="vibe-map-subtitle">Click a glowing orb to explore movies by mood</p>
+                    <button class="vibe-map-close" id="vibeMapClose">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="vibe-map-canvas" id="vibeMapCanvas">
+                    <div class="vibe-orbs-container" id="vibeOrbsContainer"></div>
+                </div>
+                
+                <div class="vibe-map-footer">
+                    <p class="vibe-map-hint">Hover over orbs to see mood names • Click to explore</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vibe Passport Section (Monad Web3 Identity) -->
+        <section class="vibe-passport-section hidden" id="vibePassportSection">
+            <div class="passport-section-container">
+                <div class="passport-section-header">
+                    <div>
+                        <span class="section-tag">WEB3 IDENTITY LAYER • MONAD TESTNET</span>
+                        <h2 class="passport-section-title">Your Vibe Passport</h2>
+                        <p class="passport-section-subtitle">Your entertainment taste transformed into an owned, verifiable on-chain identity on Monad.</p>
+                    </div>
+                    <button class="section-close-btn" id="passportCloseBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+
+                <div class="passport-grid">
+                    <!-- Digital Passport Card -->
+                    <div class="passport-card-wrapper">
+                        <div class="passport-card" id="passportCard">
+                            <div class="passport-card-header">
+                                <div class="passport-brand">
+                                    <span class="passport-brand-dot"></span>
+                                    <span>VIBEVERSE</span>
+                                </div>
+                                <div class="passport-badge-monad">
+                                    <span>MONAD VERIFIED</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                </div>
+                            </div>
+
+                            <div class="passport-archetype-display">
+                                <div class="archetype-emoji" id="passportEmoji">🌌</div>
+                                <div class="archetype-title" id="passportArchetypeName">Night Explorer</div>
+                                <div class="archetype-tagline" id="passportTagline">Deep, mysterious, and fascinated by speculative worlds.</div>
+                                <div class="archetype-genres" id="passportGenres">Electronic · Indie · Sci-Fi</div>
+                            </div>
+
+                            <div class="passport-metrics" id="passportDnaMetrics">
+                                <div class="metric-row">
+                                    <div class="metric-label"><span>Energy</span><strong id="passportEnergyVal">82%</strong></div>
+                                    <div class="metric-track"><div class="metric-bar energy-bar" id="passportEnergyBar" style="width: 82%;"></div></div>
+                                </div>
+                                <div class="metric-row">
+                                    <div class="metric-label"><span>Exploration</span><strong id="passportExplorationVal">91%</strong></div>
+                                    <div class="metric-track"><div class="metric-bar exploration-bar" id="passportExplorationBar" style="width: 91%;"></div></div>
+                                </div>
+                                <div class="metric-row">
+                                    <div class="metric-label"><span>Nostalgia</span><strong id="passportNostalgiaVal">63%</strong></div>
+                                    <div class="metric-track"><div class="metric-bar nostalgia-bar" id="passportNostalgiaBar" style="width: 63%;"></div></div>
+                                </div>
+                                <div class="metric-row">
+                                    <div class="metric-label"><span>Complexity</span><strong id="passportComplexityVal">88%</strong></div>
+                                    <div class="metric-track"><div class="metric-bar complexity-bar" id="passportComplexityBar" style="width: 88%;"></div></div>
+                                </div>
+                                <div class="metric-row">
+                                    <div class="metric-label"><span>Intensity</span><strong id="passportIntensityVal">76%</strong></div>
+                                    <div class="metric-track"><div class="metric-bar intensity-bar" id="passportIntensityBar" style="width: 76%;"></div></div>
+                                </div>
+                                <div class="metric-row">
+                                    <div class="metric-label"><span>Discovery</span><strong id="passportDiscoveryVal">93%</strong></div>
+                                    <div class="metric-track"><div class="metric-bar discovery-bar" id="passportDiscoveryBar" style="width: 93%;"></div></div>
+                                </div>
+                            </div>
+
+                            <div class="passport-stats-grid">
+                                <div class="stat-box">
+                                    <span class="stat-num" id="passportSessionsCount">17</span>
+                                    <span class="stat-label">Vibe Sessions</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-num" id="passportVibesCount">8</span>
+                                    <span class="stat-label">Vibes Created</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-num" id="passportFusionsCount">3</span>
+                                    <span class="stat-label">Vibe Fusions</span>
+                                </div>
+                            </div>
+
+                            <div class="passport-footer">
+                                <div class="signature-row">
+                                    <span class="sig-label">VIBE SIGNATURE:</span>
+                                    <span class="sig-hash" id="passportSignatureHash">0x7a91...f82c</span>
+                                </div>
+                                <div class="passport-id-tag" id="passportIdTag">PASSPORT #0421</div>
+                            </div>
+                        </div>
+
+                        <div class="passport-actions">
+                            <button type="button" class="btn-monad-primary" id="mintPassportBtn">
+                                <span>✨ Create Soulbound Passport</span>
+                            </button>
+                            <button type="button" class="btn-monad-secondary" id="findTwinsQuickBtn">
+                                <span>👯 Find My Vibe Twins</span>
+                            </button>
+                            <button type="button" class="btn-monad-secondary" id="sharePassportBtn">
+                                <span>🔗 Share Vibe</span>
+                            </button>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-monad-secondary" id="passportExplorerLink" style="display: none;">
+                                <span>🔍 View on Monad Explorer</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Side Panels: Taste Evolution & Privacy Model -->
+                    <div class="passport-side-panels">
+                        <!-- Vibe Evolution Timeline -->
+                        <div class="evolution-panel">
+                            <h3 class="panel-heading">📈 Your Vibe Evolution</h3>
+                            <p class="panel-sub">How your entertainment taste has matured across vibe sessions.</p>
+                            <div class="evolution-timeline" id="evolutionTimeline">
+                                <!-- Dynamic timeline entries -->
+                            </div>
+                        </div>
+
+                        <!-- Privacy & Proof Principle -->
+                        <div class="privacy-panel">
+                            <h3 class="panel-heading">🔒 Soulbound Privacy Model</h3>
+                            <p class="privacy-text">
+                                "Your detailed entertainment preferences stay strictly private off-chain. Monad stores an 8-D deterministic cryptographic signature (Soulbound Token) that authenticates your taste without leaking personal activity."
+                            </p>
+                            <div class="privacy-breakdown">
+                                <div class="breakdown-col offchain-col">
+                                    <span class="badge-offchain">OFF-CHAIN (PRIVATE)</span>
+                                    <ul>
+                                        <li>Detailed recommendations</li>
+                                        <li>Watch & listen history</li>
+                                        <li>Personal analytics & DB</li>
+                                    </ul>
+                                </div>
+                                <div class="breakdown-col onchain-col">
+                                    <span class="badge-onchain">ON-CHAIN (MONAD SBT)</span>
+                                    <ul>
+                                        <li>Non-transferable Soulbound NFT</li>
+                                        <li>8-D Keccak256 Vibe Signature</li>
+                                        <li>Verifiable taste ownership</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vibe Twin Discovery Section -->
+        <section class="vibe-twins-section hidden" id="vibeTwinsSection">
+            <div class="twins-container">
+                <div class="twins-header">
+                    <div>
+                        <span class="section-tag">8-D COSINE SIMILARITY • TASTE MATCHMAKING</span>
+                        <h2 class="twins-title">👯 Vibe Twin Discovery</h2>
+                        <p class="twins-subtitle">Discover users with high 8-D Vibe DNA compatibility, explore shared & complementary taste dimensions, and fuse on Monad.</p>
+                    </div>
+                    <button class="section-close-btn" id="twinsCloseBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+
+                <div class="twins-grid" id="vibeTwinsGrid">
+                    <!-- Populated dynamically with match cards -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Vibe Fusion Section -->
+        <section class="vibe-fusion-section hidden" id="vibeFusionSection">
+            <div class="fusion-container">
+                <div class="fusion-header">
+                    <div>
+                        <span class="section-tag">COLLABORATIVE TASTE SYNTHESIS • MONAD</span>
+                        <h2 class="fusion-title">Vibe Fusion Studio</h2>
+                        <p class="fusion-subtitle">Combine two Vibe Passports to generate a shared aesthetic and collaborative entertainment recommendations on Monad.</p>
+                    </div>
+                    <button class="section-close-btn" id="fusionCloseBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+
+                <div class="fusion-studio-grid">
+                    <!-- Partner Input Card -->
+                    <div class="fusion-setup-card">
+                        <h3 class="setup-heading">1. Select Partner Wallet</h3>
+                        <div class="partner-input-group">
+                            <label>Partner Monad Address</label>
+                            <input type="text" id="fusionPartnerInput" placeholder="0x... (e.g. 0x24B3...881E)" class="manual-wallet-input" spellcheck="false">
+                        </div>
+                        <div class="partner-presets">
+                            <button type="button" class="partner-preset-btn" data-addr="0x38B57d81a986B6D197c36a61E2eE1B4F435F36a2">Sample: 0x38B5...36a2 (Indie Rocker)</button>
+                            <button type="button" class="partner-preset-btn" data-addr="0x89D2F818a5621d965F292B4527781C2fB918B21e">Sample: 0x89D2...B21e (Sci-Fi Scholar)</button>
+                        </div>
+                        <button type="button" class="btn-calculate-fusion" id="calculateFusionBtn">
+                            <span>⚡ Synthesize Vibe Fusion</span>
+                        </button>
+                    </div>
+
+                    <!-- Fusion Result Card -->
+                    <div class="fusion-result-card" id="fusionResultCard">
+                        <div class="fusion-badges">
+                            <span class="shared-vibe-tag" id="sharedVibeName">MIDNIGHT ADVENTURE</span>
+                            <span class="fusion-status-tag">ON-CHAIN READY</span>
+                        </div>
+                        
+                        <div class="compatibility-circle-wrapper">
+                            <div class="compatibility-score" id="compatibilityScoreVal">87%</div>
+                            <div class="compatibility-label">Taste Compatibility</div>
+                        </div>
+
+                        <div class="fusion-users-row">
+                            <div class="user-pill user-a">
+                                <span class="user-label">YOU</span>
+                                <span class="user-address-short" id="fusionUserAAddr">0x12...34ab</span>
+                            </div>
+                            <span class="fusion-plus">+</span>
+                            <div class="user-pill user-b">
+                                <span class="user-label">PARTNER</span>
+                                <span class="user-address-short" id="fusionUserBAddr">0x89...b21e</span>
+                            </div>
+                        </div>
+
+                        <!-- Combined Recommendations -->
+                        <div class="fusion-recommendations">
+                            <h4>Shared Entertainment Curation</h4>
+                            <div class="fusion-tags-row">
+                                <span class="curation-pill">🎬 Blade Runner 2049</span>
+                                <span class="curation-pill">🎵 M83 - Midnight City</span>
+                                <span class="curation-pill">📺 Dark (Netflix)</span>
+                                <span class="curation-pill">🎮 Cyberpunk 2077</span>
+                            </div>
+                        </div>
+
+                        <div class="fusion-action-footer">
+                            <button type="button" class="btn-monad-primary" id="createFusionOnMonadBtn">
+                                <span>🔮 Create Vibe Fusion on Monad</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mood Memory Log Sidebar -->
+        <aside class="mood-memory-sidebar hidden" id="moodMemorySidebar">
+            <div class="memory-sidebar-header">
+                <h3 class="memory-title">
+                    <span style="font-size: 1.3rem;">📋</span>
+                    Vibe Journal
+                </h3>
+                <button class="memory-close" id="memoryCloseBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="memory-tabs">
+                <button class="memory-tab active" data-period="3days">3 Days</button>
+                <button class="memory-tab" data-period="week">Week</button>
+            </div>
+            
+            <div class="memory-list" id="memoryList">
+                <!-- Populated dynamically -->
+            </div>
+            
+            <div class="memory-footer">
+                <button class="clear-memory-btn" id="clearMemoryBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Clear History
+                </button>
+            </div>
+        </aside>
+
+        <!-- Results Section -->
+        <section class="results-section hidden" id="resultsSection">
+            <div class="results-header">
+                <div class="results-info">
+                    <h2 class="current-selection" id="currentSelection"></h2>
+                    <p class="results-count" id="resultsCount"></p>
+                </div>
+                <button class="back-btn" id="backBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    New Search
+                </button>
+            </div>
+
+            <!-- Filters & Sort -->
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="21" x2="4" y2="14"/>
+                            <line x1="4" y1="10" x2="4" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12" y2="3"/>
+                            <line x1="20" y1="21" x2="20" y2="16"/>
+                            <line x1="20" y1="12" x2="20" y2="3"/>
+                        </svg>
+                        Sort By
+                    </label>
+                    <select class="filter-select" id="sortSelect">
+                        <option value="popularity.desc">Most Popular</option>
+                        <option value="popularity.asc">Least Popular</option>
+                        <option value="vote_average.desc">Highest Rated</option>
+                        <option value="vote_average.asc">Lowest Rated</option>
+                        <option value="release_date.desc">Newest First</option>
+                        <option value="release_date.asc">Oldest First</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        Min Rating
+                    </label>
+                    <select class="filter-select" id="ratingFilter">
+                        <option value="0">All Ratings</option>
+                        <option value="5">5+ ⭐</option>
+                        <option value="6">6+ ⭐</option>
+                        <option value="7">7+ ⭐</option>
+                        <option value="8">8+ ⭐</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        Release Year
+                    </label>
+                    <select class="filter-select" id="yearFilter">
+                        <option value="">All Years</option>
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2010-2019">2010-2019</option>
+                        <option value="2000-2009">2000-2009</option>
+                        <option value="1990-1999">1990s Classics</option>
+                        <option value="1980-1989">1980s Classics</option>
+                        <option value="1970-1979">1970s Classics</option>
+                        <option value="1960-1969">1960s Classics</option>
+                        <option value="1950-1959">1950s Classics</option>
+                        <option value="1900-1949">Golden Age (1900-1949)</option>
+                    </select>
+                </div>
+
+                <div class="filter-group language-filter-group">
+                    <button class="language-filter-label collapsible-header" id="languageToggleBtn" type="button">
+                        <div class="label-content">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                            <span>Select Language</span>
+                            <span class="language-badge" id="languageBadge">All</span>
+                        </div>
+                        <svg class="collapse-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    
+                    <!-- Custom Language Picker -->
+                    <div class="custom-language-picker expanded" id="customLanguagePicker">
+                        <div class="language-grid">
+                            <button class="language-chip active" data-lang="" data-name="All Languages">
+                                <span class="lang-icon">🌍</span>
+                                <span class="lang-name">All</span>
+                            </button>
+                            <button class="language-chip" data-lang="en" data-name="English">
+                                <span class="lang-icon">🇺🇸</span>
+                                <span class="lang-name">English</span>
+                            </button>
+                            <button class="language-chip" data-lang="hi" data-name="Hindi">
+                                <span class="lang-icon">🇮🇳</span>
+                                <span class="lang-name">Hindi</span>
+                            </button>
+                            <button class="language-chip" data-lang="te" data-name="Telugu">
+                                <span class="lang-icon">🇮🇳</span>
+                                <span class="lang-name">Telugu</span>
+                            </button>
+                            <button class="language-chip" data-lang="ta" data-name="Tamil">
+                                <span class="lang-icon">🇮🇳</span>
+                                <span class="lang-name">Tamil</span>
+                            </button>
+                            <button class="language-chip" data-lang="ml" data-name="Malayalam">
+                                <span class="lang-icon">🇮🇳</span>
+                                <span class="lang-name">Malayalam</span>
+                            </button>
+                            <button class="language-chip" data-lang="kn" data-name="Kannada">
+                                <span class="lang-icon">🇮🇳</span>
+                                <span class="lang-name">Kannada</span>
+                            </button>
+                            <button class="language-chip" data-lang="ko" data-name="Korean">
+                                <span class="lang-icon">🇰🇷</span>
+                                <span class="lang-name">Korean</span>
+                            </button>
+                            <button class="language-chip" data-lang="ja" data-name="Japanese">
+                                <span class="lang-icon">🇯🇵</span>
+                                <span class="lang-name">Japanese</span>
+                            </button>
+                            <button class="language-chip" data-lang="es" data-name="Spanish">
+                                <span class="lang-icon">🇪🇸</span>
+                                <span class="lang-name">Spanish</span>
+                            </button>
+                            <button class="language-chip" data-lang="fr" data-name="French">
+                                <span class="lang-icon">🇫🇷</span>
+                                <span class="lang-name">French</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden select for backward compatibility -->
+                    <select class="filter-select language-select" id="languageFilter" style="display: none;">
+                        <option value="">All Languages</option>
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="te">Telugu</option>
+                        <option value="ta">Tamil</option>
+                        <option value="ml">Malayalam</option>
+                        <option value="kn">Kannada</option>
+                        <option value="ko">Korean</option>
+                        <option value="ja">Japanese</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label style="display:flex; align-items:center; gap:8px;">
+                        <input type="checkbox" id="autoRelaxToggle" checked style="transform: scale(1.05); margin-right:6px;" />
+                        <span>Auto-relax filters (recommended)</span>
+                    </label>
+                    <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:6px;">Automatically broaden search when strict filters return too few results.</div>
+                </div>
+
+                <button class="apply-filters-btn" id="applyFiltersBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Apply
+                </button>
+            </div>
+
+            <!-- Smart Suggestions Section -->
+            <div class="suggestions-banner hidden" id="suggestionsBanner">
+                <div class="suggestions-header">
+                    <div class="suggestions-icon">💡</div>
+                    <div class="suggestions-title">
+                        <h4>Smart Suggestions</h4>
+                        <p id="suggestionContext">Based on your mood</p>
+                    </div>
+                </div>
+                <div class="suggestions-chips" id="suggestionsChips">
+                    <!-- Dynamic suggestion chips will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Loading Skeleton -->
+            <div class="skeleton-grid hidden" id="skeletonGrid">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+
+            <div class="loading hidden" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Finding your perfect movies...</p>
+            </div>
+
+            <!-- Vibe Music Recommendations Section -->
+            <div class="vibe-music-section hidden" id="vibeMusicSection">
+                <div class="vibe-music-header">
+                    <div class="music-icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="5.5" cy="17.5" r="2.5"/>
+                            <circle cx="17.5" cy="15.5" r="2.5"/>
+                            <path d="M8 17V5l12-2v12"/>
+                            <path d="M20 13V5l-12 2"/>
+                        </svg>
+                    </div>
+                    <div class="music-title">
+                        <h3 id="musicSectionTitle">🎵 Vibe Music</h3>
+                        <p id="musicSectionSubtitle">Songs matching your mood</p>
+                    </div>
+                    <button class="music-toggle-btn" id="musicToggleBtn">
+                        <svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="music-recommendations-container" id="musicRecommendationsContainer">
+                    <div class="music-loading hidden" id="musicLoading">
+                        <div class="loading-spinner"></div>
+                        <p>Finding perfect songs for you...</p>
+                    </div>
+                    <div class="music-recommendations-grid" id="musicRecommendationsGrid">
+                        <!-- Songs will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="movies-grid" id="moviesGrid"></div>
+
+            <button class="load-more-btn hidden" id="loadMoreBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <polyline points="19 12 12 19 5 12"/>
+                </svg>
+                Load More Movies
+            </button>
+        </section>
+    </div>
+
+    <!-- YouTube Music Player Container (Hidden) -->
+    <div id="youtubePlayerHidden" style="position: fixed; bottom: -500px; left: 0; width: 0; height: 0; z-index: -1; pointer-events: none;">
+        <div id="youtubePlayer"></div>
+    </div>
+
+    <!-- Music Player Bar (Fixed at Bottom) -->
+    <div class="music-player-bar hidden" id="musicPlayerBar">
+        <div class="player-content">
+            <div class="player-track-info">
+                <img class="player-thumbnail" id="playerThumbnail" src="" alt="Album Art">
+                <div class="player-text">
+                    <div class="player-song-name" id="playerSongName">No song playing</div>
+                    <div class="player-artist-name" id="playerArtistName">Select a song</div>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="player-btn player-prev-btn" id="playerPrevBtn" title="Previous">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                    </svg>
+                </button>
+                <button class="player-btn player-play-pause-btn" id="playerPlayPauseBtn" title="Play/Pause">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+                <button class="player-btn player-next-btn" id="playerNextBtn" title="Next">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 18h2V6h-2zm-11-7l8.5-6v12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="player-progress-section">
+                <span class="player-time" id="playerCurrentTime">0:00</span>
+                <div class="player-progress-bar" id="playerProgressBar">
+                    <div class="player-progress-fill" id="playerProgressFill"></div>
+                    <div class="player-progress-thumb" id="playerProgressThumb"></div>
+                </div>
+                <span class="player-time" id="playerDuration">0:30</span>
+            </div>
+            <div class="player-volume-section">
+                <button class="player-btn player-volume-btn" id="playerVolumeBtn" title="Volume">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                    </svg>
+                </button>
+                <div class="player-volume-slider">
+                    <input type="range" min="0" max="100" value="70" id="playerVolumeSlider">
+                </div>
+            </div>
+            <button class="player-btn player-spotify-link-btn" id="playerSpotifyLink" title="Open in Spotify">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Minimized YouTube Player Bar -->
+    <div class="youtube-minimized-bar hidden" id="youtubeMinimizedBar">
+        <div class="minimized-content">
+            <div class="minimized-icon">🎵</div>
+            <div class="minimized-info">
+                <div class="minimized-title" id="minimizedTitle">Song Name</div>
+                <div class="minimized-artist" id="minimizedArtist">Artist</div>
+            </div>
+            <button class="minimized-restore-btn" id="youtubeRestore" title="Restore player">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                </svg>
+            </button>
+            <button class="minimized-close-btn" id="youtubeMinimizedClose" title="Stop music">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Trailer Modal -->
+    <div class="modal hidden" id="trailerModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Streaming Details Modal -->
+    <div class="modal hidden" id="streamingModal">
+        <div class="modal-overlay" id="streamingOverlay"></div>
+        <div class="modal-content streaming-modal-content">
+            <button class="modal-close" id="streamingClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="streaming-body" id="streamingBody"></div>
+        </div>
+    </div>
+
+    <!-- Send On-Chain Vibe Modal -->
+    <div class="modal hidden" id="sendTxModal">
+        <div class="modal-overlay" id="sendTxOverlay"></div>
+        <div class="modal-content send-tx-modal-content">
+            <button class="modal-close" id="sendTxClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="send-tx-header">
+                <div class="send-tx-icon">⚡</div>
+                <h3 class="send-tx-title">Send On-Chain Vibe</h3>
+                <p class="send-tx-subtitle">Send a real ETH transaction or tip via MetaMask</p>
+            </div>
+            <div class="send-tx-form">
+                <div class="form-group">
+                    <label for="txRecipientInput">Recipient Address</label>
+                    <input type="text" id="txRecipientInput" placeholder="0x..." value="0x71C6370244569339304990928232938492023972" class="manual-wallet-input" spellcheck="false">
+                </div>
+                <div class="form-group">
+                    <label>Amount (ETH)</label>
+                    <div class="amount-presets">
+                        <button type="button" class="amount-preset-btn active" data-amt="0.0001">0.0001 ETH</button>
+                        <button type="button" class="amount-preset-btn" data-amt="0.0005">0.0005 ETH</button>
+                        <button type="button" class="amount-preset-btn" data-amt="0.001">0.001 ETH</button>
+                    </div>
+                    <input type="number" id="txAmountInput" step="0.0001" min="0.00001" value="0.0001" class="manual-wallet-input">
+                </div>
+                
+                <div class="send-tx-actions">
+                    <button type="button" class="auth-btn send-submit-btn" id="confirmSendTxBtn">
+                        <span>Confirm in MetaMask</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+
+                    <div class="test-divider">
+                        <span>OR TEST SAFELY</span>
+                    </div>
+
+                    <button type="button" class="test-tx-btn" id="simulateTestTxBtn">
+                        <span>🧪 Generate Test Transaction (Free / Instant)</span>
+                    </button>
+                </div>
+
+                <div class="testnet-helper">
+                    <button type="button" class="testnet-switch-link" id="switchTestnetBtn">⚡ Switch to Sepolia Testnet</button>
+                    <span>•</span>
+                    <a href="https://sepoliafaucet.com" target="_blank" rel="noopener noreferrer" class="testnet-faucet-link">🚰 Free Faucet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vibe Mode Panel (Right Sidebar) -->
+    <div class="vibe-mode-panel hidden" id="vibeModePanel">
+        <div class="vibe-mode-header">
+            <h3 class="vibe-mode-title">🎨 Vibe Mode</h3>
+            <button class="vibe-mode-close" id="vibeModeClose">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <p class="vibe-mode-subtitle">Choose your visual theme</p>
+        <div class="vibe-mode-grid">
+            <div class="vibe-mode-card active" data-vibe="default">
+                <div class="vibe-card-icon">✨</div>
+                <div class="vibe-card-name">Default</div>
+                <div class="vibe-card-desc">Classic VibeVerse experience</div>
+            </div>
+            <div class="vibe-mode-card" data-vibe="happy">
+                <div class="vibe-card-icon">😊</div>
+                <div class="vibe-card-name">Happy</div>
+                <div class="vibe-card-desc">Bright and cheerful vibes</div>
+            </div>
+            <div class="vibe-mode-card" data-vibe="sad">
+                <div class="vibe-card-icon">😢</div>
+                <div class="vibe-card-name">Sad</div>
+                <div class="vibe-card-desc">Melancholic atmosphere</div>
+            </div>
+            <div class="vibe-mode-card" data-vibe="energetic">
+                <div class="vibe-card-icon">⚡</div>
+                <div class="vibe-card-name">Energetic</div>
+                <div class="vibe-card-desc">High-energy experience</div>
+            </div>
+            <div class="vibe-mode-card" data-vibe="romantic">
+                <div class="vibe-card-icon">💕</div>
+                <div class="vibe-card-name">Romantic</div>
+                <div class="vibe-card-desc">Love and passion theme</div>
+            </div>
+            <div class="vibe-mode-card" data-vibe="calm">
+                <div class="vibe-card-icon">🌙</div>
+                <div class="vibe-card-name">Calm</div>
+                <div class="vibe-card-desc">Peaceful and relaxing</div>
+            </div>
+            <div class="vibe-mode-card" data-vibe="mystery">
+                <div class="vibe-card-icon">🔮</div>
+                <div class="vibe-card-name">Mystery</div>
+                <div class="vibe-card-desc">Enigmatic and intriguing</div>
+            </div>
+            <div class="vibe-mode-card" data-vibe="horror">
+                <div class="vibe-card-icon">👻</div>
+                <div class="vibe-card-name">Horror</div>
+                <div class="vibe-card-desc">Dark and spooky theme</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube Music Popup Player -->
+    <div class="youtube-music-popup hidden" id="youtubeMusicPopup">
+        <div class="youtube-popup-overlay" id="youtubePopupOverlay"></div>
+        <div class="youtube-popup-content">
+            <div class="youtube-popup-header">
+                <div class="youtube-music-icon">🎵</div>
+                <div class="youtube-song-info">
+                    <div class="youtube-song-title" id="youtubeSongTitle">Loading...</div>
+                    <div class="youtube-song-artist" id="youtubeSongArtist"></div>
+                </div>
+                <button class="youtube-minimize-btn" id="youtubeMinimize" title="Minimize (play in background)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+                <button class="youtube-player-close" id="youtubeClose" title="Stop and close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="youtube-player-wrapper">
+                <div id="youtubePlayerContainer"></div>
+            </div>
+            <div class="youtube-music-label">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF0000">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
+                </svg>
+                YouTube Music
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Lifecycle State Modal -->
+    <div class="modal hidden" id="txLifecycleModal">
+        <div class="modal-overlay" id="txLifecycleOverlay"></div>
+        <div class="modal-content tx-lifecycle-modal-content">
+            <div class="tx-lifecycle-header">
+                <div class="tx-lifecycle-icon" id="txLifecycleIcon">⚡</div>
+                <h3 class="tx-lifecycle-title" id="txLifecycleTitle">Creating Vibe Passport on Monad</h3>
+                <p class="tx-lifecycle-subtitle" id="txLifecycleSubtitle">Follow the prompt in your MetaMask wallet</p>
+            </div>
+
+            <div class="tx-steps-track">
+                <div class="tx-step-node active" id="txStep1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Generating Signature</div>
+                </div>
+                <div class="tx-step-line" id="txLine1"></div>
+                <div class="tx-step-node" id="txStep2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Preparing TX</div>
+                </div>
+                <div class="tx-step-line" id="txLine2"></div>
+                <div class="tx-step-node" id="txStep3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Waiting Wallet</div>
+                </div>
+                <div class="tx-step-line" id="txLine3"></div>
+                <div class="tx-step-node" id="txStep4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Monad Consensus</div>
+                </div>
+                <div class="tx-step-line" id="txLine4"></div>
+                <div class="tx-step-node" id="txStep5">
+                    <div class="step-circle">✓</div>
+                    <div class="step-label">Verified</div>
+                </div>
+            </div>
+
+            <div class="tx-result-box hidden" id="txResultBox">
+                <div class="tx-success-badge">✓ ON-CHAIN VERIFIED ON MONAD TESTNET</div>
+                <div class="tx-hash-display" id="txResultHash">0x...</div>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="btn-explorer-link" id="txResultExplorerBtn">
+                    <span>🔍 View on Monad Explorer</span>
+                </a>
+            </div>
+
+            <button type="button" class="btn-tx-close hidden" id="txLifecycleCloseBtn">Close</button>
+        </div>
+    </div>
+
+    <!-- Public Verification Modal -->
+    <div class="modal hidden" id="publicVerifyModal">
+        <div class="modal-overlay" id="publicVerifyOverlay"></div>
+        <div class="modal-content verify-modal-content">
+            <button class="modal-close" id="publicVerifyClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+
+            <div class="verify-header">
+                <div class="verify-badge">MONAD TESTNET EXPLORER</div>
+                <h3 class="verify-title">Public Vibe Passport Verification</h3>
+                <p class="verify-desc">Independently verify ownership and deterministic Vibe Signatures on Monad. No login required.</p>
+            </div>
+
+            <div class="verify-search-bar">
+                <input type="text" id="verifyPassportInput" placeholder="Enter Passport ID (e.g. 1) or 0x Wallet Address" class="manual-wallet-input">
+                <button type="button" class="btn-verify-lookup" id="btnVerifyLookup">Verify</button>
+            </div>
+
+            <div class="verify-result-card" id="verifyResultCard">
+                <div class="verify-status-banner" id="verifyStatusBanner">
+                    <span class="verify-status-icon">✓</span>
+                    <span class="verify-status-text">MONAD ON-CHAIN RECORD CONFIRMED</span>
+                </div>
+
+                <div class="verify-details-grid">
+                    <div class="verify-detail-item">
+                        <span class="v-label">Passport ID:</span>
+                        <strong class="v-val" id="vPassportId">#0421</strong>
+                    </div>
+                    <div class="verify-detail-item">
+                        <span class="v-label">Vibe Archetype:</span>
+                        <strong class="v-val" id="vArchetype">🌌 Night Explorer</strong>
+                    </div>
+                    <div class="verify-detail-item">
+                        <span class="v-label">Owner Address:</span>
+                        <span class="v-val mono" id="vOwner">0x71C6...3972</span>
+                    </div>
+                    <div class="verify-detail-item">
+                        <span class="v-label">Vibe Signature:</span>
+                        <span class="v-val mono" id="vSignature">0x7a91f82c...</span>
+                    </div>
+                    <div class="verify-detail-item">
+                        <span class="v-label">Timestamp:</span>
+                        <span class="v-val" id="vTimestamp">Aug 22, 2026</span>
+                    </div>
+                    <div class="verify-detail-item">
+                        <span class="v-label">Smart Contract:</span>
+                        <span class="v-val mono" id="vContract">0x8A79...c318</span>
+                    </div>
+                </div>
+
+                <div class="verify-privacy-notice">
+                    <span>🔒 Privacy Principle: Detailed user watch/listening history is kept strictly off-chain. This verification confirms authenticity without revealing private activity.</span>
+                </div>
+
+                <div class="verify-explorer-action">
+                    <a href="https://testnet.monadexplorer.com" target="_blank" rel="noopener noreferrer" class="btn-explorer-link" id="verifyExplorerLink">
+                        <span>🔍 View Verified Record on Monad Explorer</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vibe Mode Background Canvas -->
+    <canvas id="vibeModeCanvas" class="vibe-mode-canvas"></canvas>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script type="module" src="./config.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+
+</html>
+
