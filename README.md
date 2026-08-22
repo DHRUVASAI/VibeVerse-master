@@ -61,7 +61,7 @@ flowchart TD
     B --> C[Deterministic Vibe Signature Generator]
     C -->|Canonical JSON + Keccak256| D[Privacy-Preserving Vibe Signature]
 
-    subgraph Monad Testnet Blockchain (Chain ID 10143)
+    subgraph Monad["Monad Testnet Blockchain (Chain ID 10143)"]
         E[VibePassport.sol Smart Contract]
         E --> F[createPassport / updatePassport]
         E --> G[createFusion Dual-Wallet Collaboration]
