@@ -172,17 +172,11 @@ MONAD_RPC_URL=https://testnet-rpc.monad.xyz
 node contracts/compile.js
 ```
 
-### 4. Start Development Servers
-```bash
-# Terminal 1: Backend API Proxy (Port 5174)
-cd server && node index.js
+## 🔗 Live Demo
 
-# Terminal 2: Frontend Vite App (Port 5173)
-npm run dev
-```
+**[vibeverse-monad-957036694697.s3-website-us-east-1.amazonaws.com](http://vibeverse-monad-957036694697.s3-website-us-east-1.amazonaws.com/)**
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
-
+> ⚠️ Served over HTTP via S3 static website hosting — some browsers may show a "not secure" warning, and MetaMask/wallet connections may behave differently than on HTTPS. For full Web3 functionality, consider fronting this with CloudFront + ACM for HTTPS.
 ---
 
 ## 🧪 Automated Testing
